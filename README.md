@@ -2,7 +2,7 @@
   <h1>🌲 Moonlit Forest Campsite 🌙</h1>
   <p><strong>A real-time interactive 3D nighttime campsite scene built with C++ and OpenGL.</strong></p>
   
-  ![Campsite Night Overview](docs/screenshots_new/01_overview_night.png)
+  ![Campsite Night Overview](screenshots/01_overview_night.png)
   
   [![C++](https://img.shields.io/badge/C++-17-blue.svg)](https://isocpp.org/)
   [![OpenGL](https://img.shields.io/badge/OpenGL-Classic-red.svg)](https://www.opengl.org/)
@@ -20,8 +20,8 @@
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="docs/screenshots_new/03_campfire.png" width="48%" />
-  <img src="docs/screenshots_new/08_sunrise_mid.png" width="48%" />
+  <img src="screenshots/03_campfire.png" width="48%" />
+  <img src="screenshots/08_sunrise_mid.png" width="48%" />
 </p>
 
 ## 🚀 Quick Start
