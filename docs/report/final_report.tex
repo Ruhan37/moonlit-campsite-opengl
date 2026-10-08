@@ -1,0 +1,1009 @@
+\documentclass[12pt,a4paper]{report}
+
+% ── Packages ──────────────────────────────────────────────
+\usepackage[top=1.2in, bottom=1.0in, left=1.2in, right=1.0in, headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}   % Times text + matching Times math
+\usepackage{courier}     % Courier for \texttt (as in the original)
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath,amssymb}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{tocloft}
+\usepackage[hidelinks]{hyperref}   % keep hyperref last
+
+% ── Line spacing ──────────────────────────────────────────
+\setstretch{1.2}
+\raggedbottom                       % no stretched vertical gaps
+\widowpenalty=10000 \clubpenalty=10000 \displaywidowpenalty=10000
+\emergencystretch=2em               % kills most overfull lines
+\setlist{itemsep=2pt, topsep=4pt, parsep=0pt, partopsep=0pt}
+
+% tighter table of contents (set tocdepth to 2 to list subsections again)
+\setcounter{tocdepth}{1}
+\setlength{\cftbeforechapskip}{3pt}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{0pt}
+
+% framed, large screenshots
+\newcommand{\shot}[1]{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.8pt}%
+  \fcolorbox{black!70}{white}{\includegraphics[width=0.94\textwidth,height=4.0in,keepaspectratio]{#1}}}
+
+% two screenshots side by side
+\newcommand{\halfshot}[1]{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.8pt}%
+  \fcolorbox{black!70}{white}{\includegraphics[width=0.485\textwidth]{#1}}}
+
+% compact, readable tables (single spacing inside tables)
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\tabfmt}{\footnotesize\singlespacing\renewcommand{\arraystretch}{1.1}}
+
+% ── Graphics path ─────────────────────────────────────────
+\graphicspath{{./}{docs/screenshots/}{docs/screenshots_new/}}
+
+% ── Chapter/Section Formatting ────────────────────────────
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\centering\fontsize{14}{21}\selectfont}
+  {CHAPTER \Roman{chapter}}{12pt}
+  {\fontsize{16}{24}\selectfont\bfseries}
+\titlespacing*{\chapter}{0pt}{-20pt}{18pt}
+
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{14}{21}\selectfont}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}
+  {\normalfont\bfseries\fontsize{12}{18}\selectfont}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% ── Header/Footer ────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small CSE 4102: Computer Graphics and Image Processing Laboratory}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Caption style ─────────────────────────────────────────
+\captionsetup{font={normalsize,singlespacing}, labelfont=bf, justification=centering, skip=6pt}
+
+% ── Code listing style ───────────────────────────────────
+\lstdefinestyle{cppstyle}{
+  language=C++,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\bfseries\color{blue!70!black},
+  commentstyle=\itshape\color{green!50!black},
+  stringstyle=\color{red!60!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b,
+}
+\lstset{style=cppstyle}
+
+% ══════════════════════════════════════════════════════════
+% DOCUMENT BEGIN
+% ══════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Cover Page ───────────────────────────────────────────
+\begin{titlepage}
+\begin{center}
+
+\textbf{\fontsize{14}{21}\selectfont CSE 4102: Computer Graphics and Image Processing Laboratory}
+
+\vspace{2.4cm}
+
+{\fontsize{20}{30}\selectfont \textbf{\textsc{Moonlit Forest Campsite:\\[6pt]
+A Real-Time Procedural 3D Scene\\[6pt]
+using C++ and OpenGL}}}
+
+\vspace{2.6cm}
+
+{\fontsize{14}{21}\selectfont \textbf{Submitted by}}\\[10pt]
+{\fontsize{14}{21}\selectfont \textbf{MD Ruhan Ahsan Sarnav}}\\[4pt]
+{\fontsize{12}{18}\selectfont Roll: 2107025}
+
+\vspace{1.8cm}
+
+{\fontsize{14}{21}\selectfont \textbf{Submitted to}}\\[10pt]
+{\fontsize{12}{18}\selectfont \textbf{Md Tajmilur Rahman}}\\
+{\fontsize{12}{18}\selectfont Lecturer}\\
+{\fontsize{12}{18}\selectfont Department of Computer Science and Engineering}\\
+{\fontsize{12}{18}\selectfont Khulna University of Engineering \& Technology}\\[16pt]
+{\fontsize{12}{18}\selectfont \textbf{Md. Mubtashim Abrar Nihal}}\\
+{\fontsize{12}{18}\selectfont Lecturer}\\
+{\fontsize{12}{18}\selectfont Department of Computer Science and Engineering}\\
+{\fontsize{12}{18}\selectfont Khulna University of Engineering \& Technology}
+
+\vfill
+
+{\fontsize{12}{16}\selectfont \textbf{Department of Computer Science and Engineering\\
+Khulna University of Engineering \& Technology\\
+Khulna 9203, Bangladesh}}\\[6pt]
+{\fontsize{12}{16}\selectfont October, 2026}
+
+\end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+% ── Abstract ─────────────────────────────────────────────
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This project presents the design and implementation of ``Moonlit Forest Campsite,'' a real-time procedural 3D scene built entirely using C++ and the OpenGL fixed-function pipeline.
+The scene portrays a nighttime forest campsite complete with a crackling campfire, procedurally generated trees, an animated owl, exponential-squared fog, drifting smoke particles, rising embers, glowing fireflies, shooting stars, and a dynamic day--night cycle featuring a sunrise transition.
+
+All geometry is generated procedurally at run-time using parametric equations and OpenGL primitives---no external 3D models or image files are loaded.
+Textures for the ground, tree bark, and tent canvas are synthesized algorithmically using sinusoidal functions combined with uniform random noise.
+The lighting system employs two OpenGL light sources: a point light representing the campfire with distance-based attenuation, and a directional light for the moon/sun, both of which smoothly transition during the sunrise sequence.
+
+Key rendering techniques demonstrated include multi-layered alpha-blended particle systems (smoke, embers, fireflies), additive blending for fire glow and shooting star streaks, exponential-squared fog (GL\_EXP2) for atmospheric depth, procedural terrain with sinusoidal height functions, and real-time camera orbit with mouse and keyboard controls.
+The project runs at interactive frame rates on standard hardware and is compiled with a single \texttt{clang++} command targeting macOS frameworks (OpenGL + GLUT).
+
+To cover the core graphics topics of the course, the scene also implements \textbf{hierarchical geometric transformations} (translation, rotation, scaling with the matrix stack), the \textbf{Phong reflection model} (ambient, diffuse and specular terms), a run-time switch (key \texttt{P}) between \textbf{Gouraud shading} (per-vertex, fixed-function) and \textbf{Phong shading} (per-pixel, GLSL), several forms of \textbf{motion and animation}, rich keyboard/mouse \textbf{interaction}, and an additional \textbf{CPU ray tracer} (key \texttt{G}) with shadows, mirror reflection, refraction and fog.
+
+\newpage
+
+% ── Table of Contents ────────────────────────────────────
+\thispagestyle{plain}
+\begin{singlespace}
+\makeatletter
+\begin{center}{\fontsize{16}{24}\selectfont\bfseries Contents}\end{center}
+\vspace{4pt}
+\@starttoc{toc}
+\makeatother
+\end{singlespace}
+\newpage
+
+% ── List of Figures + List of Tables (one page) ──────────
+\thispagestyle{plain}
+\begingroup
+\makeatletter
+\begin{singlespace}
+\begin{center}{\fontsize{16}{24}\selectfont\bfseries List of Figures}\end{center}
+\vspace{4pt}
+\@starttoc{lof}
+\vspace{20pt}
+\begin{center}{\fontsize{16}{24}\selectfont\bfseries List of Tables}\end{center}
+\vspace{4pt}
+\@starttoc{lot}
+\end{singlespace}
+\makeatother
+\endgroup
+\newpage
+
+% ══════════════════════════════════════════════════════════
+% CHAPTER I — INTRODUCTION
+% ══════════════════════════════════════════════════════════
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\titlespacing*{\section}{0pt}{6pt}{2pt}   % compact headings, Chapter I only
+\chapter{Introduction}
+
+\section{Introduction}
+
+Real-time 3D graphics is built from geometric primitives, materials, lighting and camera transformations---concepts that OpenGL exposes directly.
+\textbf{Moonlit Forest Campsite} is a real-time scene of a night-time forest campfire with procedurally generated trees, rocks, a tent and an animated owl, in which the user can orbit the camera, throw logs into the fire and trigger a sunrise.
+
+\section{Problem Statement}
+
+Game engines hide the mathematics of 3D rendering; this project builds a complete scene from scratch using only fixed-function OpenGL, with no external assets.
+
+\section{Objectives}
+
+\begin{enumerate}[leftmargin=0.45in]
+  \item To build a 3D scene from procedural geometry using fixed-function OpenGL.
+  \item To implement point-light (campfire) and directional (moon/sun) lighting.
+  \item To demonstrate alpha-blended particles: smoke, embers and fireflies.
+  \item To implement exponential fog, procedural textures and terrain.
+  \item To provide interactive controls and a smooth day--night transition.
+  \item To apply geometric transformations (translate, rotate, scale) hierarchically to build articulated objects such as the owl and trees.
+  \item To implement and compare Gouraud (per-vertex) and Phong (per-pixel) shading using the ambient--diffuse--specular reflection model.
+  \item To implement a CPU ray tracer with shadows, reflection and refraction as an extension beyond real-time rasterisation.
+\end{enumerate}
+
+\section{Scope}
+
+The scene is implemented in C++17 with OpenGL 2.1 (fixed-function pipeline) and GLUT on macOS.
+
+\section{Uniqueness of the Project}
+
+Unlike single-object tutorials, the project integrates lighting, particles, fog, terrain and animation, all fully procedural, in one interactive scene.
+
+\section{Applications of the Work}
+
+The techniques apply to graphics education, game development, real-time simulation and lightweight embedded graphics.
+
+\section{Organisation of the Report}
+
+Chapter~I also compares the proposal with the final result; Chapters II--IV present the methodology (transformations, lighting, Gouraud/Phong shading, animation, ray tracing), the implementation with results and a code guide, and the conclusion.
+
+\section{Proposed vs.\ Implemented Features}
+
+The project proposal (\texttt{proposal.pdf}, ``Campfire Forest Night'') promised a Python/PyOpenGL scene. During development the project was re-implemented in \textbf{C++17 with OpenGL 2.1 + GLUT} for speed and so that a GLSL shader and a multi-threaded ray tracer could be added; every proposed feature was kept. Table~\ref{tab:proposal} lists the proposed items and their final status.
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Proposed features and their final status}
+\label{tab:proposal}
+\begin{tabularx}{\textwidth}{|Y|c|Y|}
+\hline
+\textbf{Proposed feature} & \textbf{Status} & \textbf{Where / how} \\
+\hline
+Hierarchical transformations (\texttt{glPushMatrix}/\texttt{glPopMatrix}) & Done & Owl, trees, tripod, tent (\texttt{draw\_owl}, \texttt{draw\_tree}) \\
+\hline
+Positional + directional lighting (\texttt{GL\_LIGHT0}/\texttt{GL\_LIGHT1}), material emission & Done & \texttt{update\_lights}, \texttt{material()} \\
+\hline
+Undulating terrain (44$\times$44 mesh) & Done & \texttt{terrain\_height}, \texttt{draw\_ground} \\
+\hline
+6 detailed trees, 15 distant trees, roots, branches, layered foliage with wind sway & Done & \texttt{draw\_tree}, \texttt{draw\_distant\_forest} \\
+\hline
+Hierarchical owl (body, head, wings, eyes, beak, talons) with animation & Done & \texttt{draw\_owl} \\
+\hline
+Tent with canvas texture, poles, guy ropes & Done & \texttt{draw\_tent} \\
+\hline
+Campfire: 13 stones, 5 logs, 17 ember-bed spheres, 5 additive flame layers & Done & \texttt{draw\_campfire\_base}, \texttt{draw\_flames} \\
+\hline
+Moon with emissive glow, 90 stars & Done & \texttt{draw\_sky} \\
+\hline
+14 smoke particles, 18 embers, 10 fireflies & Done & \texttt{draw\_smoke}, \texttt{draw\_embers}, \texttt{draw\_fireflies} \\
+\hline
+52 grass tufts, 19 rocks, 8 soft contact shadows & Done & \texttt{draw\_forest\_details}, \texttt{draw\_contact\_shadows} \\
+\hline
+3 procedural textures (ground, bark, canvas) & Done & \texttt{TextureBank} \\
+\hline
+Flickering firelight with attenuation & Done & \texttt{flicker}, Eq.~\ref{eq:flicker} \\
+\hline
+EXP2 fog with toggle (\texttt{F}) & Done & \texttt{init\_gl}, \texttt{keyboard} \\
+\hline
+Orbit camera: mouse, arrows, zoom, reset & Done & \texttt{Camera}, \texttt{mouse\_motion} \\
+\hline
+Pause/resume (\texttt{Space}), frame-rate independent animation & Done & \texttt{idle} (delta time) \\
+\hline
+Deterministic seeded randomness & Partial & Scattering is seeded (\texttt{std::mt19937}); shooting stars use \texttt{rand()} \\
+\hline
+Implementation language Python $\rightarrow$ C++ & Changed & Whole project re-implemented \\
+\hline
+\end{tabularx}
+\end{table}
+
+Beyond the proposal, the following features were added (Table~\ref{tab:extra}). The first four were added to satisfy the course requirements for shading and ray tracing.
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Features added beyond the proposal}
+\label{tab:extra}
+\begin{tabularx}{\textwidth}{|Y|Y|}
+\hline
+\textbf{Extra feature} & \textbf{Details} \\
+\hline
+Gouraud $\leftrightarrow$ Phong shading switch & Key \texttt{P}; GLSL 1.20 per-pixel shader in \texttt{Shading.cpp} \\
+\hline
+CPU ray tracer & Key \texttt{G}; shadows, reflection, refraction, fog, 2$\times$2 AA, multi-threaded (\texttt{RayTracer.cpp}) \\
+\hline
+Polished low-poly orb and glass orb & Demonstrate specular highlight and reflection/refraction \\
+\hline
+On-screen HUD & Shows current shading mode / ray-trace statistics (key \texttt{H}) \\
+\hline
+Day--night cycle with sun and moon & Key \texttt{T}; all light, fog and sky parameters interpolated \\
+\hline
+Wind, shooting stars, burst embers & Key \texttt{W}; random streaks; ballistic sparks \\
+\hline
+Throwable logs, fuel-dependent fire & Key \texttt{L} or mouse click on log pile; fire grows and changes colour \\
+\hline
+Stumps, hanging pot on tripod, log pile & Additional scene objects (pot sways with wind) \\
+\hline
+Automatic screenshot mode & \texttt{./campsite --capture dir} \\
+\hline
+\end{tabularx}
+\end{table}
+
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}   % restore for the rest of the report
+
+% ══════════════════════════════════════════════════════════
+% CHAPTER II — METHODOLOGY
+% ══════════════════════════════════════════════════════════
+\chapter{Methodology}
+
+\section{Introduction}
+
+This chapter describes the mathematical models and algorithmic approaches used to construct each component of the Moonlit Forest Campsite.
+All formulations are implemented directly in C++ using the OpenGL fixed-function pipeline.
+
+\section{System Architecture}
+
+The application is structured around a single controller class \texttt{ForestCampsite} that manages all subsystems:
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\footnotesize, align=center},
+  mem/.style={draw, rounded corners=2pt, fill=white, minimum width=4.2cm, minimum height=9mm, inner sep=2pt}]
+\draw[rounded corners=4pt, fill=gray!10, thick] (-7.0,-2.4) rectangle (7.0,2.15);
+\node[font=\small\bfseries] at (0,1.75) {\texttt{ForestCampsite} (Controller)};
+\node[mem] at (-4.6, 0.75) {\texttt{Camera}\\{\scriptsize orbital camera}};
+\node[mem] at ( 0.0, 0.75) {\texttt{Quadric}\\{\scriptsize GLU quadric handle}};
+\node[mem] at ( 4.6, 0.75) {\texttt{TextureBank}\\{\scriptsize procedural textures}};
+\node[mem] at (-4.6,-0.45) {\texttt{SmokeParticle[]}\\{\scriptsize smoke system}};
+\node[mem] at ( 0.0,-0.45) {\texttt{EmberParticle[]}\\{\scriptsize ember system}};
+\node[mem] at ( 4.6,-0.45) {\texttt{Firefly[]}\\{\scriptsize firefly system}};
+\node[mem] at (-4.6,-1.65) {\texttt{ShootingStar[]}\\{\scriptsize shooting-star system}};
+\node[mem] at ( 0.0,-1.65) {\texttt{BurstEmber[]}\\{\scriptsize impact burst effects}};
+\node[mem] at ( 4.6,-1.65) {\texttt{ThrownLog[]}\\{\scriptsize log trajectory}};
+\node[draw, rounded corners=2pt, fill=white, minimum width=10cm, minimum height=8mm] (cb) at (0,-3.9)
+  {GLUT callbacks: \texttt{display}, \texttt{idle}, \texttt{keyboard}, \texttt{mouse}};
+\draw[<->, thick] (0,-3.5) -- (0,-2.4);
+\end{tikzpicture}
+\caption{System Architecture Overview}
+\label{fig:architecture}
+\end{figure}
+
+\section{Camera Model}
+
+The camera uses a spherical-coordinate orbit model.  Given azimuth $\theta$, elevation $\phi$, and radius $r$, the eye position is:
+
+\begin{equation}
+\mathbf{e} = \mathbf{t} + r \begin{pmatrix} \cos\phi \sin\theta \\ \sin\phi \\ \cos\phi \cos\theta \end{pmatrix}
+\label{eq:camera}
+\end{equation}
+
+where $\mathbf{t} = (t_x, t_y, t_z)$ is the look-at target.
+The \texttt{gluLookAt} function is then called with $\mathbf{e}$, $\mathbf{t}$, and the up vector $\hat{y} = (0,1,0)$.
+
+\section{Geometric Transformations}
+
+All objects are positioned with 4$\times$4 homogeneous matrices applied to column vectors $\mathbf{p}=(x,y,z,1)^T$:
+
+\begin{equation}
+T(t_x,t_y,t_z)=\begin{pmatrix}1&0&0&t_x\\0&1&0&t_y\\0&0&1&t_z\\0&0&0&1\end{pmatrix},\quad
+S(s_x,s_y,s_z)=\begin{pmatrix}s_x&0&0&0\\0&s_y&0&0\\0&0&s_z&0\\0&0&0&1\end{pmatrix}
+\label{eq:ts}
+\end{equation}
+
+\begin{equation}
+R_y(\theta)=\begin{pmatrix}\cos\theta&0&\sin\theta&0\\0&1&0&0\\-\sin\theta&0&\cos\theta&0\\0&0&0&1\end{pmatrix},\quad
+R_z(\theta)=\begin{pmatrix}\cos\theta&-\sin\theta&0&0\\\sin\theta&\cos\theta&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix}
+\label{eq:rot}
+\end{equation}
+
+\texttt{glTranslatef}, \texttt{glRotatef} and \texttt{glScalef} multiply the current matrix on the right, so a call sequence builds $M = T\,R\,S$ and a vertex becomes $\mathbf{p}'=M\mathbf{p}$ (the last call acts first on the vertex).
+\texttt{glPushMatrix}/\texttt{glPopMatrix} save and restore $M$, giving \emph{hierarchical} models: a child is drawn relative to its parent,
+
+\begin{equation}
+M_{\text{eye}} = M_{\text{tree}}\,T_{\text{owl}}\,T_{\text{head}}\,R_y(\alpha(t))\,T_{\text{eye}}
+\label{eq:hier}
+\end{equation}
+
+so that when the head turns by $\alpha(t)=25^\circ\sin(1.08t)$ the eyes, ears and beak turn with it.
+Non-uniform scaling is used to create ellipsoids (owl body, rocks, stones) from a unit sphere (\texttt{scaled\_sphere}).
+Normals are transformed by the inverse transpose, $\mathbf{n}'=(M^{-1})^T\mathbf{n}$, and re-normalised (\texttt{GL\_NORMALIZE}).
+Examples of animated transformations: tree sway $R_z\bigl((2.8+5w)\sin(1.22t+\varphi)+6w\bigr)$, owl wing flap $12^\circ+14^\circ\sin(4.6t)$, and the thrown log
+$\mathbf{p}(s)=\mathbf{p}_0(1-s)+\bigl(0,\,0.2+1.5\sin(\pi s),\,0\bigr)\,s$ with spin $720^\circ s$, $s\in[0,1]$.
+
+\section{Viewing and Projection}
+
+The model-view matrix is $V\cdot M$ with $V$ from \texttt{gluLookAt}.
+The perspective projection \texttt{gluPerspective}$(51^\circ,a,0.1,85)$ uses $f=\cot(\mathrm{fov}/2)$:
+
+\begin{equation}
+P=\begin{pmatrix}\dfrac{f}{a}&0&0&0\\0&f&0&0\\0&0&\dfrac{z_f+z_n}{z_n-z_f}&\dfrac{2z_fz_n}{z_n-z_f}\\0&0&-1&0\end{pmatrix}
+\label{eq:proj}
+\end{equation}
+
+Visibility is resolved with the depth (Z) buffer (\texttt{GL\_DEPTH\_TEST}); transparent particles disable depth writes (\texttt{glDepthMask(GL\_FALSE)}).
+Mouse picking uses \texttt{gluUnProject} to cast a ray through the cursor and intersect the ground plane $y=0$.
+
+\section{Terrain Generation}
+
+The terrain height is a sinusoidal function, blended to zero near the campfire:
+
+\begin{equation}
+h(x,z) = \left[0.16 \sin(0.38x) \cos(0.29z) + 0.07 \sin(0.91x + 0.54z)\right] \cdot b(r)
+\label{eq:terrain}
+\end{equation}
+
+where $r = \sqrt{x^2 + z^2}$ and the clearing blend function is:
+
+\begin{equation}
+b(r) = \text{clamp}\!\left(\frac{r - 3.8}{4.5},\; 0,\; 1\right)
+\label{eq:blend}
+\end{equation}
+
+This keeps the campfire clearing flat while the terrain around it undulates.
+Surface normals are approximated using finite differences:
+
+\begin{equation}
+\hat{n}(x,z) \approx \text{normalise}\!\bigl(h(x-\delta,z)-h(x+\delta,z),\;\; 2\delta,\;\; h(x,z-\delta)-h(x,z+\delta)\bigr)
+\label{eq:normal}
+\end{equation}
+
+with step size $\delta = 0.08$.
+The ground is tessellated into a $44 \times 44$ grid of triangle strips covering a $32 \times 32$ unit area.
+
+\section{Procedural Texture Generation}
+
+Three textures are generated algorithmically without loading any image files:
+
+\subsection{Ground Texture}
+
+A $96 \times 96$ pixel texture combining multiple sine waves with random noise to simulate a dirt/grass surface.
+Colour values are modulated by:
+
+\begin{equation}
+c(u,v) = c_{\text{base}} + A \sin(f_1 u) \cos(f_2 v) + \eta
+\label{eq:groundtex}
+\end{equation}
+
+where $\eta \sim \mathcal{U}(-\epsilon, \epsilon)$ is uniform random noise.
+
+\subsection{Bark Texture}
+
+A $64 \times 96$ pixel texture using vertical sinusoidal streaks with horizontal perturbation:
+
+\begin{equation}
+c(u,v) = c_{\text{bark}} + A_1 \sin(f_v \cdot v + A_2 \sin(f_u \cdot u))
+\label{eq:barktex}
+\end{equation}
+
+\subsection{Canvas Texture}
+
+A $64 \times 64$ pixel texture with a woven cross-hatch pattern created by modulating horizontal and vertical sine functions.
+
+\section{Lighting System}
+
+The lighting follows the \textbf{Phong reflection model}: the colour at a surface point is the sum of an emissive term, a global ambient term, and for every light an ambient, a diffuse and a specular component, attenuated with distance:
+
+\begin{equation}
+I = I_e + I_{a}k_a + \sum_{i} \frac{1}{k_c + k_l d_i + k_q d_i^2} \Big[ I_{a,i}k_a + I_{d,i}\,k_d\,\max(\hat{N}\!\cdot\!\hat{L}_i,0) + I_{s,i}\,k_s\,\max(\hat{R}_i\!\cdot\!\hat{V},0)^{n_s} \Big]
+\label{eq:blinnphong}
+\end{equation}
+
+where $\hat{N}$ is the surface normal, $\hat{L}_i$ the unit vector to the light, $\hat{V}$ the unit vector to the viewer, and the reflection vector is
+
+\begin{equation}
+\hat{R} = 2(\hat{N}\!\cdot\!\hat{L})\hat{N} - \hat{L}
+\label{eq:reflect}
+\end{equation}
+
+$I_a$, $I_d$, $I_s$ are the ambient, diffuse and specular light intensities, $k_a,k_d,k_s$ the material coefficients, $k_c,k_l,k_q$ the attenuation constants, $n_s$ the shininess exponent and $I_e$ the material emission.
+OpenGL's fixed-function pipeline replaces $\hat{R}\!\cdot\!\hat{V}$ by the Blinn half-vector form $(\hat{N}\!\cdot\!\hat{H})^{n_s}$ with $\hat{H}=(\hat{L}+\hat{V})/\lVert\hat{L}+\hat{V}\rVert$; our Phong GLSL shader uses the original $\hat{R}\!\cdot\!\hat{V}$ of Eq.~\ref{eq:reflect}.
+\texttt{GL\_COLOR\_MATERIAL} makes $k_a=k_d=$ the current \texttt{glColor}; the specular coefficient and shininess are set by \texttt{material()} (e.g.\ the polished orb uses $k_s=0.95,\ n_s=70$).
+Two light sources illuminate the scene:
+
+\begin{enumerate}[leftmargin=0.45in]
+  \item \textbf{Light 0 (Campfire -- Point Light):} Positioned at $(0, 1.08, 0)$ with attenuation parameters $k_c = 1.0$, $k_l = 0.075$, $k_q = 0.026$.  Its intensity is modulated by a flicker function:
+  \begin{equation}
+    F(t,\varphi) = 0.54\sin(12.7t + \varphi) + 0.29\sin(21.3t + 2.1\varphi) + 0.17\sin(37.9t + 0.7\varphi)
+    \label{eq:flicker}
+  \end{equation}
+
+  \item \textbf{Light 1 (Moon/Sun -- Directional Light):} Direction vector interpolated between moonlight $(0.24, 0.82, 0.18)$ and sunlight $(0, 1, 1)$ based on \texttt{time\_of\_day} $\tau \in [0,1]$:
+  \begin{equation}
+    \mathbf{L}_1 = (1-\tau)\mathbf{L}_{\text{moon}} + \tau \mathbf{L}_{\text{sun}}
+    \label{eq:lightdir}
+  \end{equation}
+\end{enumerate}
+
+\section{Shading Models: Gouraud and Phong}
+
+The reflection model of Eq.~\ref{eq:blinnphong} gives a colour at \emph{one point}; a \emph{shading model} decides where it is evaluated. For a triangle with vertices $\mathbf{v}_1,\mathbf{v}_2,\mathbf{v}_3$ and a pixel with barycentric coordinates $(\alpha,\beta,\gamma)$, $\alpha+\beta+\gamma=1$:
+
+\begin{itemize}[leftmargin=0.45in]
+  \item \textbf{Flat:} one colour per polygon from the face normal (not used).
+  \item \textbf{Gouraud (per-vertex):} the reflection model is evaluated at the three vertices using vertex normals, and the \emph{colours} are interpolated:
+  \begin{equation}
+    I(\mathbf{p}) = \alpha I(\mathbf{v}_1)+\beta I(\mathbf{v}_2)+\gamma I(\mathbf{v}_3)
+    \label{eq:gouraud}
+  \end{equation}
+  \item \textbf{Phong (per-pixel):} the \emph{normals} are interpolated and the reflection model is evaluated for every pixel:
+  \begin{equation}
+    \hat{N}(\mathbf{p}) = \frac{\alpha\hat{N}_1+\beta\hat{N}_2+\gamma\hat{N}_3}{\lVert \alpha\hat{N}_1+\beta\hat{N}_2+\gamma\hat{N}_3\rVert},\qquad I(\mathbf{p}) = I\bigl(\hat{N}(\mathbf{p})\bigr)\ \text{from Eq.~\ref{eq:blinnphong}}
+    \label{eq:phongshade}
+  \end{equation}
+\end{itemize}
+
+Because Gouraud interpolates intensities, a specular highlight that falls \emph{inside} a triangle is lost or smeared, and a point light close to a large polygon (the campfire light on the 0.73-unit ground cells or on the tent canvas) produces a faceted hot-spot. Phong shading reproduces a smooth highlight at higher cost (per-pixel evaluation).
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Gouraud vs.\ Phong shading in this project}
+\label{tab:shading}
+\begin{tabularx}{\textwidth}{|l|Y|Y|}
+\hline
+ & \textbf{Gouraud} & \textbf{Phong} \\
+\hline
+Lighting evaluated & Per vertex & Per pixel (fragment) \\
+\hline
+Interpolated quantity & Colour & Normal (and eye position) \\
+\hline
+Implementation & Fixed function, \texttt{glShadeModel(GL\_SMOOTH)} & GLSL 1.20 program in \texttt{Shading.cpp} \\
+\hline
+Specular term & Half-vector $(N\!\cdot\!H)^n$ & Reflection vector $(R\!\cdot\!V)^n$ \\
+\hline
+Key & \texttt{P} (off) & \texttt{P} (on) \\
+\hline
+\end{tabularx}
+\end{table}
+
+{\sloppy The Phong program re-uses the same OpenGL state (\texttt{gl\_LightSource}, \texttt{gl\_FrontMaterial}, \texttt{gl\_Fog}, \texttt{glColor}, current texture), so all existing draw calls work unchanged in both modes. Because GLSL cannot see whether lighting/texturing/fog is enabled, \texttt{glEnable}/\texttt{glDisable} are wrapped by two small hook functions that upload three boolean uniforms (\texttt{uLighting}, \texttt{uTexture}, \texttt{uFog}).\par}
+
+\section{Fog Model}
+
+The scene uses GL\_EXP2 (exponential-squared) fog:
+
+\begin{equation}
+f = e^{-(d \cdot \rho)^2}
+\label{eq:fog}
+\end{equation}
+
+where $d$ is the distance from the eye to the fragment and $\rho$ is the fog density.
+The final fragment colour is blended as:
+
+\begin{equation}
+C_{\text{final}} = f \cdot C_{\text{fragment}} + (1 - f) \cdot C_{\text{fog}}
+\label{eq:fogblend}
+\end{equation}
+
+\section{Particle Systems}
+
+\subsection{Smoke Particles}
+
+Each of the 14 smoke particles follows a cyclic life with phase offset:
+
+\begin{equation}
+\ell_i = \left(p_i + t \cdot s_i\right) \bmod 1
+\label{eq:smokelife}
+\end{equation}
+
+Horizontal drift uses curl-like motion:
+\begin{equation}
+x_i(\ell) = x_{\text{off}} + \sin(0.72t + \psi_i + 3\ell) \cdot (0.10 + 0.44\ell) + w \cdot \ell \cdot 2
+\label{eq:smokex}
+\end{equation}
+
+Opacity decays as $\alpha = 0.22 \cdot (1 - \ell)^{1.4}$.
+
+\subsection{Ember Particles}
+
+18 embers spiral upward with increasing radius:
+\begin{equation}
+\begin{cases}
+  \theta_i(\ell) &= \theta_0 + t \cdot d_i + 2.4\ell \\
+  r_i(\ell) &= r_0 (0.4 + \ell) \\
+  y_i(\ell) &= 0.75 + 2.6\ell
+\end{cases}
+\label{eq:ember}
+\end{equation}
+
+\subsection{Firefly Motion}
+
+Each of the 10 fireflies orbits an elliptical path:
+\begin{equation}
+\mathbf{p}_i(t) = \mathbf{c}_i + \begin{pmatrix} r_{x,i} \cos(\omega_i t + \varphi_i) \\ 0.22 \sin(1.7(\omega_i t + \varphi_i)) \\ r_{z,i} \sin(\omega_i t + \varphi_i) \end{pmatrix}
+\label{eq:firefly}
+\end{equation}
+
+with a pulsating glow: $\alpha = 0.72 + 0.28 \sin(4.2t + \varphi_i)$.
+
+\section{Fire Rendering}
+
+The campfire is rendered using five nested cones with additive blending:
+
+\begin{equation}
+C_{\text{flame}} = C_{\text{src}} \cdot \alpha_{\text{src}} + C_{\text{dst}} \cdot 1
+\label{eq:addblend}
+\end{equation}
+
+Each cone ``leans'' dynamically:
+\begin{equation}
+\theta_{\text{lean}} = 4\sin(7t + \varphi) + 20w
+\label{eq:lean}
+\end{equation}
+
+where $w$ is the wind strength $\in [0,1]$.
+
+\section{Day--Night Transition}
+
+All environmental parameters are linearly interpolated using \texttt{time\_of\_day} $\tau$:
+
+\begin{equation}
+P(\tau) = (1 - \tau) \cdot P_{\text{night}} + \tau \cdot P_{\text{day}}
+\label{eq:daycycle}
+\end{equation}
+
+Applied to: background colour, ambient light, fog colour, fog density, moonlight/sunlight direction, and star opacity.
+
+\section{Object Scattering}
+
+Rocks and grass tufts are scattered using a rejection-sampling algorithm with a Mersenne Twister PRNG:
+
+\begin{equation}
+(x_i, z_i) = (r_i \cos\alpha_i,\; r_i \sin\alpha_i), \quad r_i \sim \mathcal{U}(r_{\text{in}}, r_{\text{out}}),\; \alpha_i \sim \mathcal{U}(0, 2\pi)
+\label{eq:scatter}
+\end{equation}
+
+Subject to: $\sqrt{(x_i - 3.2)^2 + (z_i - 2.5)^2} > 2.0$ (clearing exclusion zone).
+
+\section{Ray Tracing}
+
+In addition to real-time rasterisation, a CPU ray tracer (Whitted style) renders the same scene when the user presses \texttt{G}. A ray is $\mathbf{r}(t)=\mathbf{o}+t\hat{\mathbf{d}},\ t>0$. For pixel $(x,y)$ of a $W\times H$ image with camera basis $(\hat{\mathbf{f}},\hat{\mathbf{r}},\hat{\mathbf{u}})$ the primary ray direction is
+
+\begin{equation}
+\hat{\mathbf{d}}=\text{normalise}\bigl(\hat{\mathbf{f}}+u\,\hat{\mathbf{r}}+v\,\hat{\mathbf{u}}\bigr),\quad u=\Bigl(\tfrac{2(x+0.5)}{W}-1\Bigr)a\tan\tfrac{\theta}{2},\ \ v=\Bigl(1-\tfrac{2(y+0.5)}{H}\Bigr)\tan\tfrac{\theta}{2}
+\label{eq:primary}
+\end{equation}
+
+with $a=W/H$ and $\theta=51^\circ$ (the same as the OpenGL camera).
+
+\subsection{Ray--Object Intersection}
+
+\textbf{Plane} $y=y_0$: $t=(y_0-o_y)/d_y$.
+
+\textbf{Sphere / ellipsoid} (centre $\mathbf{c}$, radii $\mathbf{r}$): the ray is divided component-wise by $\mathbf{r}$ so the surface becomes the unit sphere, $\lVert\mathbf{o}'+t\mathbf{d}'\rVert^2=1$:
+
+\begin{equation}
+A=\mathbf{d}'\!\cdot\!\mathbf{d}',\ B=\mathbf{o}'\!\cdot\!\mathbf{d}',\ C=\mathbf{o}'\!\cdot\!\mathbf{o}'-1,\qquad t=\frac{-B\mp\sqrt{B^2-AC}}{A}
+\label{eq:sphere}
+\end{equation}
+
+and the normal is $\hat{N}\propto(\mathbf{p}-\mathbf{c})/\mathbf{r}^2$ (component-wise).
+
+\textbf{Cylinder / cone (frustum)} along the local $y$-axis, radius $r(y)=r_0+ky,\ k=(r_1-r_0)/h$: $x^2+z^2=r(y)^2$ gives
+
+\begin{equation}
+\begin{gathered}
+A=d_x^2+d_z^2-(kd_y)^2,\quad B=o_xd_x+o_zd_z-r_ok d_y,\quad C=o_x^2+o_z^2-r_o^2,\\
+r_o=r_0+ko_y,\qquad t=\frac{-B\pm\sqrt{B^2-AC}}{A}
+\end{gathered}
+\label{eq:cone}
+\end{equation}
+
+accepted when $0\le y\le h$; the two end caps are discs ($y=0$, $y=h$). The normal is $(p_x,-k\,r(y),p_z)$ normalised. Trees, tripod legs, logs and branches are all frusta placed with an arbitrary axis.
+
+\textbf{Triangle} (tent, owl beak) by M\"oller--Trumbore with edges $\mathbf{e}_1=\mathbf{v}_1-\mathbf{v}_0$, $\mathbf{e}_2=\mathbf{v}_2-\mathbf{v}_0$, $\mathbf{p}=\hat{\mathbf{d}}\times\mathbf{e}_2$, $\mathbf{s}=\mathbf{o}-\mathbf{v}_0$:
+
+\begin{equation}
+\det=\mathbf{e}_1\!\cdot\!\mathbf{p},\quad u=\frac{\mathbf{s}\!\cdot\!\mathbf{p}}{\det},\quad v=\frac{\hat{\mathbf{d}}\!\cdot\!(\mathbf{s}\times\mathbf{e}_1)}{\det},\quad t=\frac{\mathbf{e}_2\!\cdot\!(\mathbf{s}\times\mathbf{e}_1)}{\det}
+\label{eq:mt}
+\end{equation}
+
+with a hit when $u\ge0,\ v\ge0,\ u+v\le1$.
+
+\subsection{Shading, Shadows, Reflection and Refraction}
+
+At the nearest hit $\mathbf{p}$ the colour is the Phong model of Eq.~\ref{eq:blinnphong}, but each light contributes only if a \textbf{shadow ray} from $\mathbf{p}+\epsilon\hat{N}$ towards the light is not blocked (hard shadows). For mirror surfaces the colour is mixed with the traced reflected ray, and for glass with the reflected and refracted rays:
+
+\begin{equation}
+\hat{\mathbf{r}}=\hat{\mathbf{d}}-2(\hat{\mathbf{d}}\!\cdot\!\hat{N})\hat{N},\qquad
+C=(1-k_r)\,C_{\text{local}}+k_r\,C_{\text{reflect}}
+\label{eq:rtreflect}
+\end{equation}
+
+\begin{equation}
+\hat{\mathbf{t}}=\eta\hat{\mathbf{d}}+\Bigl(\eta\cos\theta_i-\sqrt{1-\eta^2(1-\cos^2\theta_i)}\Bigr)\hat{N},\quad \eta=\frac{n_1}{n_2},\ \ \cos\theta_i=-\hat{\mathbf{d}}\!\cdot\!\hat{N}
+\label{eq:snell}
+\end{equation}
+
+If the radicand is negative the ray is totally internally reflected. The share of reflected light is the Schlick approximation of the Fresnel equations,
+
+\begin{equation}
+\begin{gathered}
+F=F_0+(1-F_0)(1-\cos\theta_i)^5,\qquad F_0=\Bigl(\frac{n_1-n_2}{n_1+n_2}\Bigr)^2,\\
+C_{\text{glass}}=(1-T)C_{\text{local}}+T\bigl(F\,C_{\text{reflect}}+(1-F)\,C_{\text{refract}}\bigr)
+\end{gathered}
+\label{eq:schlick}
+\end{equation}
+
+with glass index $n=1.5$. Recursion stops at depth 4. Fog uses the same law as OpenGL, $f=e^{-(\rho t)^2}$, with $t$ the distance along the ray. Anti-aliasing uses $2\times2$ super-sampling, bounding spheres reject most objects quickly, and image rows are distributed over all CPU cores (\texttt{std::thread}). The cost is $O(\text{pixels}\times\text{samples}\times\text{rays per sample}\times\text{objects})$, which is why the ray tracer renders a still frame rather than running in real time.
+
+
+% ══════════════════════════════════════════════════════════
+% CHAPTER III — IMPLEMENTATION
+% ══════════════════════════════════════════════════════════
+\chapter{Implementation}
+
+\section{Development Environment}
+
+The project was developed on macOS using \texttt{clang++} with C++17.
+The build command is:
+
+\begin{lstlisting}[language=bash, caption={Build Command}, label={lst:build}]
+clang++ -std=c++17 -O2 -framework OpenGL -framework GLUT \
+  main.cpp Scene.cpp Primitives.cpp Particles.cpp Shading.cpp RayTracer.cpp -o campsite
+\end{lstlisting}
+
+No third-party libraries are required.  The total source code is 3,091 lines across thirteen files (Table~\ref{tab:files}), of which six \texttt{.cpp} files are compiled by the build command.
+
+\section{Source Code Structure}
+
+Table~\ref{tab:files} summarises the source files of the project.
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Source File Summary}
+\label{tab:files}
+\begin{tabularx}{\textwidth}{|l|c|Y|}
+\hline
+\textbf{File} & \textbf{Lines} & \textbf{Purpose} \\
+\hline
+\texttt{main.cpp} & 8 & Entry point; instantiates \texttt{ForestCampsite} \\
+\hline
+\texttt{Scene.h} & 137 & Class declarations: \texttt{Camera}, \texttt{ForestCampsite}, structs \\
+\hline
+\texttt{Scene.cpp} & 1,917 & All rendering logic, input handling, animation, HUD, ray-scene builder \\
+\hline
+\texttt{Primitives.h/cpp} & 254 & \texttt{Quadric}, \texttt{TextureBank}, geometric helpers \\
+\hline
+\texttt{Particles.h/cpp} & 95 & Particle data generation (smoke, embers, fireflies) \\
+\hline
+\texttt{Shading.h/cpp} & 206 & GLSL Phong shader, Gouraud/Phong switch, \texttt{glEnable} hooks \\
+\hline
+\texttt{RayTracer.h/cpp} & 475 & Ray tracer: intersections, Phong, shadows, reflection, refraction \\
+\hline
+\textbf{Total} & \textbf{3,091} & \textbf{13 files} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Interactive Controls}
+
+Table~\ref{tab:controls} lists the keyboard and mouse controls supported by the application.
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Keyboard and Mouse Controls}
+\label{tab:controls}
+\begin{tabularx}{\textwidth}{|l|Y|}
+\hline
+\textbf{Input} & \textbf{Action} \\
+\hline
+Mouse Drag & Orbit camera (azimuth + elevation) \\
+\hline
+Arrow Keys & Orbit camera (keyboard alternative) \\
+\hline
+\texttt{+} / \texttt{-} & Zoom in / out \\
+\hline
+\texttt{L} & Throw a log into the campfire \\
+\hline
+\texttt{W} & Toggle wind effect \\
+\hline
+\texttt{T} & Toggle sunrise/sunset transition \\
+\hline
+\texttt{Space} & Pause / resume animation \\
+\hline
+\texttt{F} & Toggle fog on/off \\
+\hline
+\texttt{R} & Reset camera to default position \\
+\hline
+\texttt{P} & Toggle Gouraud (per-vertex) $\leftrightarrow$ Phong (per-pixel) shading \\
+\hline
+\texttt{G} & Render a ray-traced frame of the current view / return to real-time view \\
+\hline
+\texttt{H} & Show / hide the HUD panel \\
+\hline
+Mouse click on log pile & Throw a log (picking with \texttt{gluUnProject}) \\
+\hline
+\texttt{Q} / \texttt{Esc} & Quit application \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Scene Screenshots}
+
+Figure~\ref{fig:overview} shows the complete night scene, Figures~\ref{fig:owl}--\ref{fig:moon} show individual scene elements, and Figures~\ref{fig:sunrise_mid}--\ref{fig:sunrise_day} show the day--night transition.
+
+\begin{figure}[!htbp]
+\centering
+\shot{01_overview_night.png}
+\caption[Scene overview at night]{Complete scene overview at night -- campfire, tent, trees, owl, moon and stars are visible.}
+\label{fig:overview}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{02_owl_closeup.png}\hfill\halfshot{03_campfire.png}
+\caption[Owl and campfire]{Left: animated owl on a tree branch (bobbing, head turn, wing flap). Right: multi-layered campfire with additive flame cones, embers and stone ring.}
+\label{fig:owl}\label{fig:campfire}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{04_fire_burst.png}\hfill\halfshot{05_tent.png}
+\caption[Burst embers and tent]{Left: burst embers with ballistic trajectories after a log is thrown into the fire. Right: A-frame tent with textured canvas, built from quads, triangles and \texttt{GL\_LINES} guy-ropes.}
+\label{fig:burst}\label{fig:tent}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{06_trees_wide.png}\hfill\halfshot{07_moon_stars.png}
+\caption[Forest, moon and stars]{Left: wide-angle forest view with four-layer conical foliage and the distant forest ring. Right: moon as an emissive solid sphere with stars rendered as \texttt{GL\_POINTS}.}
+\label{fig:trees}\label{fig:moon}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{08_sunrise_mid.png}\hfill\halfshot{09_sunrise_day.png}
+\caption[Day--night cycle]{Day--night cycle: mid-sunrise with additive glow halos (left) and full daylight after all lighting, fog and sky parameters have completed the transition (right).}
+\label{fig:sunrise_mid}\label{fig:sunrise_day}
+\end{figure}
+
+
+% ══════════════════════════════════════════════════════════
+% CHAPTER IV — CONCLUSION
+% ══════════════════════════════════════════════════════════
+\section{Shading and Ray-Tracing Results}
+
+Figure~\ref{fig:shading} compares Gouraud and Phong shading on the same frame (switch with \texttt{P}). The low-poly polished orb (12$\times$8 faces, $k_s=0.95$, $n_s=70$) shows the clearest difference: with Gouraud the highlight is lost between vertices, with Phong a sharp, smooth highlight appears; on the ground the firelight hot-spot is also smoother.
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{10_gouraud_closeup.png}\hfill\halfshot{11_phong_closeup.png}\\[4pt]
+\halfshot{12_gouraud_fire_ground.png}\hfill\halfshot{13_phong_fire_ground.png}
+\caption[Gouraud vs Phong]{Gouraud (left) vs.\ Phong (right) shading: polished orb (top) and campfire light on the ground (bottom).}
+\label{fig:shading}
+\end{figure}
+
+Figure~\ref{fig:rt} shows the ray-traced frames: shadows of the trees on the ground, the mirror orb reflecting the scene, the glass orb refracting the flames (inverted image), and the owl, tent and campfire built from spheres, cones, cylinders and triangles. The scene of 195 primitives renders at $960\times600$ with $2\times2$ anti-aliasing in about $0.6$\,s on the development machine.
+
+\begin{figure}[!htbp]
+\centering
+\halfshot{14_raytrace_overview.png}\hfill\halfshot{15_raytrace_closeup.png}
+\caption[Ray-traced frames]{Ray tracing (key \texttt{G}): overview with hard shadows (left); mirror and glass orbs with reflection and refraction (right).}
+\label{fig:rt}
+\end{figure}
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Rasterisation (OpenGL) vs.\ ray tracing in this project}
+\label{tab:rtcmp}
+\begin{tabularx}{\textwidth}{|l|Y|Y|}
+\hline
+ & \textbf{Real-time OpenGL} & \textbf{Ray tracer (\texttt{G})} \\
+\hline
+Shadows & Soft blob contact shadows (fake) & True hard shadows via shadow rays \\
+\hline
+Reflection / refraction & None & Mirror orb, glass orb \\
+\hline
+Particles, textures, animation & Yes & No (still frame, flat ground, flat colours) \\
+\hline
+Speed & 60 frames/s & $\approx0.6$\,s per frame \\
+\hline
+\end{tabularx}
+\end{table}
+
+\section{Code Guide: Functions and Parameters}
+
+Table~\ref{tab:funcs} summarises what each important function does, and Table~\ref{tab:params} lists parameters that can be changed to see an immediate effect.
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Important functions}
+\label{tab:funcs}
+\begin{tabularx}{\textwidth}{|l|Y|}
+\hline
+\textbf{Function (file)} & \textbf{Purpose} \\
+\hline
+\texttt{init\_gl} (Scene.cpp) & Enables depth test, lighting, \texttt{GL\_SMOOTH}, fog; creates textures and the Phong shader \\
+\hline
+\texttt{update\_lights} & Sets position/colour of fire light and moon/sun light, ambient and fog every frame \\
+\hline
+\texttt{display} & Per frame: camera, lights, selects shading mode, draws all objects, HUD; starts ray trace \\
+\hline
+\texttt{idle} & Delta-time animation update (time, fuel, wind, day--night, stars, logs, embers) \\
+\hline
+\texttt{keyboard}, \texttt{special\_key}, \texttt{mouse}, \texttt{mouse\_motion} & User interaction (Table~\ref{tab:controls}) \\
+\hline
+\texttt{draw\_tree}, \texttt{draw\_owl} & Hierarchical models using \texttt{glPushMatrix}/\texttt{glRotatef} \\
+\hline
+\texttt{draw\_flames}, \texttt{draw\_smoke} & Additive / alpha blended animated particles and cones \\
+\hline
+\texttt{material} (Primitives.cpp) & Sets $k_a,k_d,k_s,n_s$, emission and colour \\
+\hline
+\texttt{shading\_use}, fragment shader (Shading.cpp) & Switch Gouraud/Phong; per-pixel ambient + diffuse + specular + fog \\
+\hline
+\texttt{build\_ray\_scene} (Scene.cpp) & Converts the current scene state, lights and fog to ray-tracer objects \\
+\hline
+\texttt{RayTracer::trace}, \texttt{intersect}, \texttt{render} & Recursive colour, ray--object tests, multi-threaded image loop \\
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering\tabfmt
+\caption{Parameters to change and their effect}
+\label{tab:params}
+\begin{tabularx}{\textwidth}{|l|Y|}
+\hline
+\textbf{Parameter (location)} & \textbf{Effect when changed} \\
+\hline
+\texttt{GL\_FOG\_DENSITY} (\texttt{init\_gl}, \texttt{update\_lights}) & Larger value: denser fog, shorter visibility \\
+\hline
+Light 0 attenuation $k_c,k_l,k_q$ (\texttt{init\_gl}) & Larger $k_l,k_q$: fire light reaches a shorter distance \\
+\hline
+\texttt{l0\_pos} (\texttt{update\_lights}) & Moves the fire light; changes highlights and shading on all objects \\
+\hline
+shininess / specular in \texttt{material()} calls & Higher shininess: smaller, sharper highlight (try the orb in \texttt{draw\_demo\_orb}) \\
+\hline
+\texttt{glutSolidSphere(0.45, 12, 8)} (orb) & More slices/stacks: Gouraud approaches Phong quality \\
+\hline
+\texttt{delta * 0.05f} (\texttt{idle}) & Speed of the sunrise (0.05 = 20 s) \\
+\hline
+\texttt{wind\_strength} factors (\texttt{idle}) & Wind ramp speed and tree/flame lean \\
+\hline
+\texttt{Camera()} constructor & Initial azimuth, elevation, distance \\
+\hline
+\texttt{rt.render(cam, env, rt\_w, rt\_h, 2, 4)} & Anti-aliasing (2), recursion depth (4), resolution (960 px) \\
+\hline
+\texttt{reflectivity}, \texttt{transparency}, \texttt{ior} (\texttt{build\_ray\_scene}) & Mirror strength, glass opacity and refraction index \\
+\hline
+\end{tabularx}
+\end{table}
+
+\chapter{Conclusion}
+
+\section{Summary}
+
+This project demonstrates that a visually rich, interactive 3D scene can be built entirely from procedural primitives using OpenGL, and that the same scene can be rendered by an independent ray tracer.
+The Moonlit Forest Campsite incorporates:
+
+\begin{itemize}[leftmargin=0.45in]
+  \item Over 20 distinct object types (trees, tent, owl, campfire, rocks, grass, stumps, tripod, logs)
+  \item Hierarchical transformations (translate, rotate, scale with the matrix stack)
+  \item Phong reflection model with a point and a directional light, and \textbf{Gouraud and Phong shading} switchable at run time
+  \item Three procedurally generated textures (ground, bark, canvas)
+  \item Three continuous particle systems (smoke, embers, fireflies) and event-driven effects (burst embers, shooting stars)
+  \item A complete day--night cycle with smooth parameter interpolation
+  \item Interaction: camera orbit/zoom, log throwing (key and mouse picking), wind, fog, sunrise, pause, shading and ray-trace switches
+  \item A CPU \textbf{ray tracer} with shadows, mirror reflection, refraction and fog
+\end{itemize}
+
+All features promised in the proposal were delivered (one, deterministic randomness, only partially), and four features were added on top.
+
+\section{Challenges Faced}
+
+\begin{enumerate}[leftmargin=0.45in]
+  \item \textbf{Blending Order:} Correct transparency needed careful control of depth writes (\texttt{glDepthMask}) and blending mode (additive vs.\ alpha).
+  \item \textbf{Lighting Transitions:} Avoiding visual ``popping'' required interpolating attenuation, ambient, diffuse, specular and fog together.
+  \item \textbf{Per-pixel shading on a fixed-function code base:} The GLSL shader had to reproduce the fixed-function state (lights, material, texture, fog); this was solved by reading the built-in uniforms and hooking \texttt{glEnable}/\texttt{glDisable}.
+  \item \textbf{Ray-tracer scene:} The fire light lies inside the cooking pot and flames, so these objects do not cast shadows; ray-traced flames use transparency to show the inner layers.
+\end{enumerate}
+
+\section{Limitations and Future Work}
+
+\begin{itemize}[leftmargin=0.45in]
+  \item The ray tracer shows a still frame with a flat ground and without particles, textures or soft shadows; a BVH, soft shadows and textures could be added.
+  \item \textbf{Shadow Mapping:} Real-time shadow casting from the campfire for the OpenGL view.
+  \item \textbf{Water Body:} A reflective pond near the campsite using environment mapping.
+  \item \textbf{Sound Integration:} Ambient nature sounds and crackling fire audio using OpenAL.
+  \item \textbf{Weather Effects:} Rain, snow, and cloud cover with corresponding lighting changes.
+\end{itemize}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{enumerate}[leftmargin=0.45in]
+  \item The report structure and formatting are based on the provided template \url{Final_CSE-3200_report_template.pdf}.
+\end{enumerate}
+
+\end{document}
